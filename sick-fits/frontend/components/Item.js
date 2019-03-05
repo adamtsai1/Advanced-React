@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 
+import AddToCart from './AddToCart';
 import DeleteItem from './DeleteItem';
 import Title from './styles/Title';
 import ItemStyles from './styles/ItemStyles';
@@ -36,7 +37,7 @@ class Item extends Component {
                         <a>Edit</a>
                     </Link>
 
-                    <button>Add To Cart</button>
+                    <AddToCart id={item.id} />
                     <DeleteItem id={item.id}>Delete Item</DeleteItem>
                 </div>
             </ItemStyles>
