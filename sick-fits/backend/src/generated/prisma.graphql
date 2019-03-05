@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/adam-tsai/sick-fits/dev
-# timestamp: Mon Mar 04 2019 17:47:10 GMT-0500 (EST)
+# timestamp: Tue Mar 05 2019 13:39:43 GMT-0500 (EST)
 
 type AggregateCartItem {
   count: Int!
@@ -22,7 +22,7 @@ type CartItem implements Node {
   id: ID!
   quantity: Int!
   item: Item
-  user: User
+  user: User!
 }
 
 """A connection to a list of items."""
@@ -38,7 +38,7 @@ type CartItemConnection {
 input CartItemCreateInput {
   quantity: Int
   item: ItemCreateOneInput
-  user: UserCreateOneWithoutCartInput
+  user: UserCreateOneWithoutCartInput!
 }
 
 input CartItemCreateManyWithoutUserInput {
@@ -191,7 +191,7 @@ input CartItemSubscriptionWhereInput {
 input CartItemUpdateInput {
   quantity: Int
   item: ItemUpdateOneInput
-  user: UserUpdateOneWithoutCartInput
+  user: UserUpdateOneRequiredWithoutCartInput
 }
 
 input CartItemUpdateManyDataInput {
@@ -956,11 +956,9 @@ input UserUpdateOneRequiredInput {
   upsert: UserUpsertNestedInput
 }
 
-input UserUpdateOneWithoutCartInput {
+input UserUpdateOneRequiredWithoutCartInput {
   create: UserCreateWithoutCartInput
   connect: UserWhereUniqueInput
-  disconnect: Boolean
-  delete: Boolean
   update: UserUpdateWithoutCartDataInput
   upsert: UserUpsertWithoutCartInput
 }
