@@ -18,6 +18,7 @@ const CURRENT_USER_QUERY = gql`
                     description
                     price
                     image
+                    largeImage
                 }
             }
         }
