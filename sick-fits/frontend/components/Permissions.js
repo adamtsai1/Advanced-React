@@ -28,7 +28,10 @@ const ALL_USERS_QUERY = gql`
 `;
 
 const UPDATE_USER_PERMISSIONS_MUTATION = gql`
-    mutation UPDATE_USER_PERMISSIONS_MUTATION($permissions: [Permission]!, $userId: String!) {
+    mutation UPDATE_USER_PERMISSIONS_MUTATION(
+        $permissions: [Permission]!
+        $userId: String!
+    ) {
         updatePermissions(permissions: $permissions, userId: $userId) {
             id
             name
@@ -38,7 +41,7 @@ const UPDATE_USER_PERMISSIONS_MUTATION = gql`
     }
 `;
 
-const Permissions = (props) => (
+const Permissions = props => (
     <Query query={ALL_USERS_QUERY}>
         {({ data, loading, error }) => (
             <div>
@@ -50,13 +53,17 @@ const Permissions = (props) => (
                             <tr>
                                 <th>Name</th>
                                 <th>Email</th>
-                                {permissions.map(permission => <th key={permission}>{permission}</th>)}
-                                <th></th>
+                                {permissions.map(permission => (
+                                    <th key={permission}>{permission}</th>
+                                ))}
+                                <th />
                             </tr>
                         </thead>
 
                         <tbody>
-                            {data.users.map(user => <UserPermissions key={user.id} user={user} />)}
+                            {data.users.map(user => (
+                                <UserPermissions key={user.id} user={user} />
+                            ))}
                         </tbody>
                     </Table>
                 </div>
@@ -89,20 +96,25 @@ class UserPermissions extends Component {
         if (checkbox.checked) {
             updatedPermissions.push(checkbox.value);
         } else {
-            updatedPermissions = updatedPermissions.filter(permission => permission !== checkbox.value);
+            updatedPermissions = updatedPermissions.filter(
+                permission => permission !== checkbox.value
+            );
         }
 
         this.setState({ permissions: updatedPermissions }, updatePermissions);
-    }
+    };
 
     render() {
         const user = this.props.user;
 
         return (
-            <Mutation mutation={UPDATE_USER_PERMISSIONS_MUTATION} variables={{
-                permissions: this.state.permissions,
-                userId: user.id,
-            }}>
+            <Mutation
+                mutation={UPDATE_USER_PERMISSIONS_MUTATION}
+                variables={{
+                    permissions: this.state.permissions,
+                    userId: user.id,
+                }}
+            >
                 {(updatePermissions, { data, loading, error }) => {
                     return (
                         <>
@@ -118,13 +130,24 @@ class UserPermissions extends Component {
                                 <td>{user.email}</td>
                                 {permissions.map(permission => (
                                     <td key={permission}>
-                                        <label htmlFor={`${user.id-permission}-${permission}}`}>
+                                        <label
+                                            htmlFor={`${user.id -
+                                                permission}-${permission}}`}
+                                        >
                                             <input
-                                                id={`${user.id-permission}-${permission}}`}
+                                                id={`${user.id -
+                                                    permission}-${permission}}`}
                                                 type="checkbox"
-                                                checked={this.state.permissions.includes(permission)}
+                                                checked={this.state.permissions.includes(
+                                                    permission
+                                                )}
                                                 value={permission}
-                                                onChange={event => this.handlePermissionChange(event, updatePermissions)}
+                                                onChange={event =>
+                                                    this.handlePermissionChange(
+                                                        event,
+                                                        updatePermissions
+                                                    )
+                                                }
                                             />
                                         </label>
                                     </td>
@@ -135,14 +158,16 @@ class UserPermissions extends Component {
                                         type="button"
                                         disabled={loading}
                                         onClick={updatePermissions}
-                                    >Updat{loading ? 'ing' : 'e'}</SickButton>
+                                    >
+                                        Updat{loading ? 'ing' : 'e'}
+                                    </SickButton>
                                 </td>
                             </tr>
                         </>
                     );
                 }}
             </Mutation>
-        )
+        );
     }
 }
 
