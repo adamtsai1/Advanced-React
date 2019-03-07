@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 const AnimationStyles = styled.span`
     position: relative;
-    
+
     .count {
         display: block;
         position: relative;
