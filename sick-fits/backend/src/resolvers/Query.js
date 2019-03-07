@@ -65,11 +65,14 @@ const Query = {
         }
 
         // 2. Get orders
-        const orderList = await ctx.db.query.orders({
-            where: {
-                user: { id: ctx.request.userId },
+        const orderList = await ctx.db.query.orders(
+            {
+                where: {
+                    user: { id: ctx.request.userId },
+                },
             },
-        });
+            info
+        );
 
         // 3. Return orderList
         return orderList;

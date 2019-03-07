@@ -1,71 +1,121 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
-import { format } from 'date-fns';
+import { format, formatDistance } from 'date-fns';
 import gql from 'graphql-tag';
-import Router from 'next/router';
+import Link from 'next/link';
+import styled from 'styled-components';
 
-import Table from './styles/Table';
+import ErrorMessage from './ErrorMessage';
+import OrderItemStyles from './styles/OrderItemStyles';
 import formatMoney from '../lib/formatMoney';
 
-const ORDER_LIST_QUERY = gql`
-    query ORDER_LIST_QUERY {
-        orders {
+const USER_ORDERS_QUERY = gql`
+    query USER_ORDERS_QUERY {
+        orders(orderBy: createdAt_DESC) {
             id
             total
             createdAt
+            items {
+                id
+                title
+                price
+                description
+                quantity
+                image
+            }
         }
     }
+`;
+
+const OrderUl = styled.ul`
+    display: grid;
+    grid-gap: 4rem;
+    grid-template-columns: repeat(auto-fit, minmax(50%, 1fr));
 `;
 
 class OrderList extends Component {
     render() {
         return (
-            <Query query={ORDER_LIST_QUERY}>
+            <Query query={USER_ORDERS_QUERY}>
                 {({ data, loading, error }) => {
-                    console.log(data);
-                    const { orders } = data;
+                    if (error) {
+                        return <ErrorMessage error={error} />;
+                    }
 
+                    if (loading) {
+                        return <p>Loading...</p>;
+                    }
+
+                    const { orders } = data;
                     return (
                         <div>
-                            <h1>My Orders</h1>
+                            <h2>You have {orders.length} order(s)</h2>
 
-                            <Table>
-                                <thead>
-                                    <tr>
-                                        <th style={{ width: '100px' }}>
-                                            Order ID
-                                        </th>
-                                        <th style={{ width: '100px' }}>
-                                            Total
-                                        </th>
-                                        <th style={{ width: '100px' }}>Date</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    {orders.map(order => (
-                                        <tr
-                                            onClick={() =>
-                                                Router.push({
+                            <OrderUl>
+                                {orders.map(order => {
+                                    console.log(order);
+                                    return (
+                                        <OrderItemStyles>
+                                            <Link
+                                                href={{
                                                     pathname: '/order',
-                                                    query: {
-                                                        id: order.id,
-                                                    },
-                                                })
-                                            }
-                                        >
-                                            <td>{order.id}</td>
-                                            <td>{formatMoney(order.total)}</td>
-                                            <td>
-                                                {format(
-                                                    order.createdAt,
-                                                    'MMMM d, YYYY h:mm a'
-                                                )}
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </Table>
+                                                    query: { id: order.id },
+                                                }}
+                                            >
+                                                <a>
+                                                    <div className="order-meta">
+                                                        <p>
+                                                            {order.items.reduce(
+                                                                (a, b) =>
+                                                                    a +
+                                                                    b.quantity,
+                                                                0
+                                                            )}{' '}
+                                                            items
+                                                        </p>
+
+                                                        <p>
+                                                            {order.items.length}{' '}
+                                                            products
+                                                        </p>
+
+                                                        <p>
+                                                            {formatDistance(
+                                                                order.createdAt,
+                                                                new Date()
+                                                            )}
+                                                        </p>
+
+                                                        <p>
+                                                            {formatMoney(
+                                                                order.total
+                                                            )}
+                                                        </p>
+                                                    </div>
+
+                                                    <div className="images">
+                                                        {order.items.map(
+                                                            item => (
+                                                                <img
+                                                                    key={
+                                                                        item.id
+                                                                    }
+                                                                    src={
+                                                                        item.image
+                                                                    }
+                                                                    alt={
+                                                                        item.title
+                                                                    }
+                                                                />
+                                                            )
+                                                        )}
+                                                    </div>
+                                                </a>
+                                            </Link>
+                                        </OrderItemStyles>
+                                    );
+                                })}
+                            </OrderUl>
                         </div>
                     );
                 }}
