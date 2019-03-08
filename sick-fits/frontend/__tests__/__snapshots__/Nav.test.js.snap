@@ -61,7 +61,7 @@ Array [
 
 exports[`<Nav /> renders the number of items in the cart 1`] = `
 <div
-  className="count CartCount__Dot-xxvp4g-1 fJsVOg"
+  className="count CartCount__Dot-mpuq9q-1 cyPrVD"
 >
   3
 </div>
