@@ -3,12 +3,12 @@ import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import Router from 'next/router';
 
-import ErrorMessage from './ErrorMessage';
-import formatMoney from '../lib/formatMoney';
-import Form from './styles/Form';
+import ErrorMessage from '../ErrorMessage';
+import formatMoney from '../../lib/formatMoney';
+import Form from '../styles/Form';
 
 const CREATE_ITEM_MUTATION = gql`
-    mutation CREATE_ITEM_MUTATION (
+    mutation CREATE_ITEM_MUTATION(
         $title: String!
         $description: String!
         $price: Int!
@@ -36,22 +36,25 @@ class CreateItem extends Component {
         price: 1000,
     };
 
-    handleChange = (e) => {
+    handleChange = e => {
         const { name, type, value } = e.target;
         const val = type === 'number' ? parseFloat(value) : value;
         this.setState({ [name]: val });
     };
 
-    uploadFile = async (e) => {
+    uploadFile = async e => {
         const files = e.target.files;
         const data = new FormData();
         data.append('file', files[0]);
         data.append('upload_preset', 'sickfits');
 
-        const res = await fetch('https://api.cloudinary.com/v1_1/adam-tsai/image/upload', {
-            method: 'POST',
-            body: data,
-        });
+        const res = await fetch(
+            'https://api.cloudinary.com/v1_1/adam-tsai/image/upload',
+            {
+                method: 'POST',
+                body: data,
+            }
+        );
 
         const file = await res.json();
         this.setState({
@@ -64,19 +67,21 @@ class CreateItem extends Component {
         return (
             <Mutation mutation={CREATE_ITEM_MUTATION} variables={this.state}>
                 {(createItem, { loading, error }) => (
-                    <Form onSubmit={async e => {
-                        // Stop the form from submitting
-                        e.preventDefault();
+                    <Form
+                        onSubmit={async e => {
+                            // Stop the form from submitting
+                            e.preventDefault();
 
-                        // Call the mutation
-                        const response = await createItem();
+                            // Call the mutation
+                            const response = await createItem();
 
-                        // Change them to the single item page
-                        Router.push({
-                            pathname: '/item',
-                            query: { id: response.data.createItem.id },
-                        })
-                    }}>
+                            // Change them to the single item page
+                            Router.push({
+                                pathname: '/item',
+                                query: { id: response.data.createItem.id },
+                            });
+                        }}
+                    >
                         <ErrorMessage error={error} />
 
                         <fieldset disabled={loading} aria-busy={loading}>
@@ -90,7 +95,13 @@ class CreateItem extends Component {
                                     required
                                     onChange={this.uploadFile}
                                 />
-                                {this.state.image && <img src={this.state.image} alt="Upload Preview" width="200" />}
+                                {this.state.image && (
+                                    <img
+                                        src={this.state.image}
+                                        alt="Upload Preview"
+                                        width="200"
+                                    />
+                                )}
                             </label>
 
                             <label htmlFor="title">
