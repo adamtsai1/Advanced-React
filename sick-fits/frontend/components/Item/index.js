@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 
-import AddToCart from './AddToCart';
-import DeleteItem from './DeleteItem';
-import Title from './styles/Title';
-import ItemStyles from './styles/ItemStyles';
-import PriceTag from './styles/PriceTag';
-import formatMoney from '../lib/formatMoney';
+import AddToCart from '../AddToCart';
+import DeleteItem from '../DeleteItem';
+import Title from '../styles/Title';
+import ItemStyles from '../styles/ItemStyles';
+import PriceTag from '../styles/PriceTag';
+import formatMoney from '../../lib/formatMoney';
 
 class Item extends Component {
     static propTypes = {
