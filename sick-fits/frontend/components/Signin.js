@@ -20,8 +20,8 @@ class Signin extends Component {
         password: '',
         email: '',
     };
-    
-    saveToState = (e) => {
+
+    saveToState = e => {
         this.setState({ [e.target.name]: e.target.value });
     };
 
@@ -30,16 +30,17 @@ class Signin extends Component {
             <Mutation
                 mutation={SIGNIN_MUTATION}
                 variables={this.state}
-                refetchQueries={[
-                    { query: CURRENT_USER_QUERY },
-                ]}
+                refetchQueries={[{ query: CURRENT_USER_QUERY }]}
             >
                 {(signin, { error, loading }) => (
-                    <Form method="post" onSubmit={async e => {
-                        e.preventDefault();
-                        await signin();
-                        this.setState({ email: '', password: '' });
-                    }}>
+                    <Form
+                        method="post"
+                        onSubmit={async e => {
+                            e.preventDefault();
+                            await signin();
+                            this.setState({ email: '', password: '' });
+                        }}
+                    >
                         <fieldset disabled={loading} aria-busy={loading}>
                             <h2>Sign In to Your Account</h2>
 

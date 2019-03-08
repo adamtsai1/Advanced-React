@@ -11,7 +11,7 @@ import NavStyles from './styles/NavStyles';
 const Nav = () => (
     <User>
         {({ data: { me } }) => (
-            <NavStyles>
+            <NavStyles data-test="nav">
                 <Link href="/items">
                     <a>Shop</a>
                 </Link>
@@ -33,10 +33,16 @@ const Nav = () => (
                         <Signout user={me} />
 
                         <Mutation mutation={TOGGLE_CART_MUTATION}>
-                            {(toggleCart) => (
+                            {toggleCart => (
                                 <button onClick={toggleCart}>
                                     My Cart
-                                    <CartCount count={me.cart.reduce((tally, cartItem) => tally + cartItem.quantity, 0)} />
+                                    <CartCount
+                                        count={me.cart.reduce(
+                                            (tally, cartItem) =>
+                                                tally + cartItem.quantity,
+                                            0
+                                        )}
+                                    />
                                 </button>
                             )}
                         </Mutation>
