@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import Head from 'next/head';
 import Link from 'next/link';
 
-import ErrorMessage from './ErrorMessage';
-import PaginationStyles from './styles/PaginationStyles';
-import { perPage } from '../config';
+import ErrorMessage from '../ErrorMessage';
+import PaginationStyles from '../styles/PaginationStyles';
+import { perPage } from '../../config';
 
 const PAGINATION_QUERY = gql`
     query PAGINATION_QUERY {

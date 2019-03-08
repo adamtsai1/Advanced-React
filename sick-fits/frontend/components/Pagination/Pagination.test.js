@@ -2,7 +2,7 @@ import { MockedProvider } from 'react-apollo/test-utils';
 import { mount } from 'enzyme';
 import Router from 'next/router';
 import wait from 'waait';
-import Pagination, { PAGINATION_QUERY } from '../components/Pagination';
+import Pagination, { PAGINATION_QUERY } from './';
 
 Router.router = {
     push() {},
