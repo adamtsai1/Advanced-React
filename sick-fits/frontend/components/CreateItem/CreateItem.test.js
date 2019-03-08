@@ -6,7 +6,6 @@ import wait from 'waait';
 
 import CreateItem, { CREATE_ITEM_MUTATION } from './';
 import { fakeItem } from '../../lib/testUtils';
-import { watchFile } from 'fs';
 
 // Mock the global fetch API
 const dogImage = 'https://dog.com/dog.jpg';
