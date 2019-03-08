@@ -3,8 +3,8 @@ import toJSON from 'enzyme-to-json';
 import { MockedProvider } from 'react-apollo/test-utils';
 import wait from 'waait';
 
-import SingleItem, { SINGLE_ITEM_QUERY } from '../components/SingleItem';
-import { fakeItem } from '../lib/testUtils';
+import SingleItem, { SINGLE_ITEM_QUERY } from './';
+import { fakeItem } from '../../lib/testUtils';
 
 describe('<SingleItem />', () => {
     it('renders with proper data', async () => {

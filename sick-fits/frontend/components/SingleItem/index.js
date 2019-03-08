@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import Head from 'next/head';
-import { Query } from 'react-apollo';
 import styled from 'styled-components';
-import ErrorMessage from './ErrorMessage';
+
+import ErrorMessage from '../ErrorMessage';
 
 const SingleItemStyles = styled.div`
     max-width: 1200px;
