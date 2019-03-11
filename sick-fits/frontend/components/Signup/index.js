@@ -21,9 +21,9 @@ const SIGNUP_MUTATION = gql`
 
 class Signup extends Component {
     state = {
+        email: '',
         name: '',
         password: '',
-        email: '',
     };
 
     saveToState = e => {
@@ -40,6 +40,7 @@ class Signup extends Component {
                 {(signup, { error, loading }) => (
                     <Form
                         method="post"
+                        data-test="signup"
                         onSubmit={async e => {
                             e.preventDefault();
                             await signup();
