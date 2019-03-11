@@ -24,7 +24,7 @@ const mocks = [
             variables: {
                 email: me.email,
                 name: me.name,
-                password: 'wes',
+                password: 'abc123',
             },
         },
         result: {
@@ -88,5 +88,34 @@ describe('<Signup />', () => {
             name: me.name,
             password: me.password,
         });
+    });
+
+    it('calls the mutation properly', async () => {
+        let apolloClient;
+        const wrapper = mount(
+            <MockedProvider mocks={mocks}>
+                <ApolloConsumer>
+                    {client => {
+                        apolloClient = client;
+                        return <Signup />;
+                    }}
+                </ApolloConsumer>
+            </MockedProvider>
+        );
+
+        await wait();
+        wrapper.update();
+
+        simulateTyping(wrapper, 'email', me.email);
+        simulateTyping(wrapper, 'name', me.name);
+        simulateTyping(wrapper, 'password', 'abc123');
+
+        wrapper.update();
+        wrapper.find('form').simulate('submit');
+        await wait();
+
+        // query the user out of the apollo client
+        const user = await apolloClient.query({ query: CURRENT_USER_QUERY });
+        expect(user.data.me).toMatchObject(me);
     });
 });
