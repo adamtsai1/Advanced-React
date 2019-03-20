@@ -5,9 +5,9 @@ import gql from 'graphql-tag';
 import Head from 'next/head';
 import PropTypes from 'prop-types';
 
-import ErrorMessage from './ErrorMessage';
-import OrderStyles from './styles/OrderStyles';
-import formatMoney from '../lib/formatMoney';
+import ErrorMessage from '../ErrorMessage';
+import OrderStyles from '../styles/OrderStyles';
+import formatMoney from '../../lib/formatMoney';
 
 const SINGLE_ORDER_QUERY = gql`
     query SINGLE_ORDER_QUERY($id: ID!) {
@@ -50,11 +50,8 @@ class Order extends Component {
                     }
 
                     const { order } = data;
-
-                    console.log(order);
-
                     return (
-                        <OrderStyles>
+                        <OrderStyles data-test="order">
                             <Head>
                                 <title>Sick Fits - Order {order.id}</title>
                             </Head>
@@ -123,3 +120,4 @@ class Order extends Component {
 }
 
 export default Order;
+export { SINGLE_ORDER_QUERY };
